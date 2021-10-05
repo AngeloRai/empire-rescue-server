@@ -185,6 +185,16 @@ router.get("/facility/:id", async (req, res) => {
           as: "exams",
         },
         {
+          model: Appointment,
+          as: "appointments",
+          include: [
+            {
+              model: Facility,
+              as: 'facility'
+            }
+          ]
+        },
+        {
           model: Doctor,
           as: "doctors",
           include: [

@@ -1,25 +1,34 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const generateToken = require("../config/jwt.config");
+// const isAuthenticated = require("../middlewares/isAuthenticated");
+// const attachCurrentUser = require("../middlewares/attachCurrentUser");
+// const isAdmin = require("../middlewares/isAdmin");
 const { User, Patient, Address } = require("../models");
-const address = require("../models/address");
 
 //CREATE USER
 router.post("/sign-up", async (req, res) => {
-  const { password } = req.body;
-  console.log(password);
+  const { password, email } = req.body;
+  console.log(req.body);
   try {
+
+    const findUser = await User.findOne({where: {email: email}})
+    
+    if (findUser) {
+      return res.status(500).json({ msg: "Este email já está registrado. Escolha outro email." });
+    }
     let hashedPassword = ""
     
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10)
     }
-
+   
     const newUser = await User.create({
       ...req.body,
       passwordHash: hashedPassword,
     });
 
-    console.table(newUser);
+    
     return res.json(newUser);
   } catch (err) {
     console.log(err.errors);
@@ -35,19 +44,19 @@ router.post("/login", async (req, res) => {
 
     // Search user in the database by email
     const user = await User.findOne({ where: { email } });
-
+    ;
     // If user is not found, user is not registered
     if (!user) {
       return res
         .status(400)
-        .json({ msg: "This email is not yet registered in our website;" });
+        .json({ msg: "Este email não está registrado." });
     }
 
     // Verify if password matches with incoming password from the form
 
     if (await bcrypt.compare(password, user.passwordHash)) {
       // Generate JWT token with the logged user data
-      //const token = generateToken(user);
+     const token = generateToken(user);
 
       return res.status(200).json({
         user: {
@@ -55,11 +64,11 @@ router.post("/login", async (req, res) => {
           role: user.role,
           id: user.id,
         },
-        //token,
+        token,
       });
     } else {
       // 401 Unauthorized
-      return res.status(401).json({ msg: "Wrong password or email" });
+      return res.status(401).json({ msg: "Senha errada" });
     }
   } catch (err) {
     console.error(err);
@@ -98,7 +107,7 @@ router.get("/user/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const patient = await User.findByPk(id, {
+    const user = await User.findByPk(id, {
       attributes: { exclude: ["passwordHash"] },
       include: [
         {
@@ -114,7 +123,11 @@ router.get("/user/:id", async (req, res) => {
       ],
     });
 
-    return res.json(patient);
+    if (!user) {
+      return res.status(404).json({msg: "Usuario nao encontrado!"})
+    }
+
+    return res.json(user);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong!" });

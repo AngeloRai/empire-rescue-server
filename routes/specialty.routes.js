@@ -59,6 +59,10 @@ router.get("/specialty/:id", async (req, res) => {
             {
               model: Specialty,
               as: "specialties"
+            },
+            {
+              model: Doctor,
+              as: "doctors"
             }
           ]
         },
@@ -70,7 +74,11 @@ router.get("/specialty/:id", async (req, res) => {
             {
               model: Specialty,
               as: "specialties"
-            }
+            },
+            {
+              model: Facility,
+              as: "facilities"
+            },
           ]
         },
       ],

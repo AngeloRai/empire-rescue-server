@@ -1,6 +1,6 @@
 ("use strict");
-const moment = require("moment");
-moment.locale('pt-br');
+//const moment = require("moment");
+//moment.locale("pt-br");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Appointment extends Model {
@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(Patient, { foreignKey: "patientId", as: "patient" });
       this.belongsTo(Facility, { foreignKey: "facilityId", as: "facility" });
       this.belongsTo(Doctor, { foreignKey: "doctorId", as: "doctor" });
-      this.belongsTo(Specialty, {foreignKey: 'specialtyId', as: 'specialty'});
-      this.belongsTo(Exam, {foreignKey: 'examId', as: 'exam'});
+      this.belongsTo(Specialty, { foreignKey: "specialtyId", as: "specialty" });
+      this.belongsTo(Exam, { foreignKey: "examId", as: "exam" });
     }
   }
   Appointment.init(
@@ -29,14 +29,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       dateTime: {
         type: DataTypes.DATE,
-        get() {
-          return moment(this.getDataValue("dateTime")).format("llll");
-        },
-        validate: {
-          isDate: { msg: "Date must be in 'YYYY/MM/DD' format." },
-        },
+        
       },
-      
     },
     {
       sequelize,
@@ -46,3 +40,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Appointment;
 };
+
+// get() {
+//   return moment(this.getDataValue("dateTime")).format("llll");
+// },

@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { request } = require("express");
-const { Patient, User, Address, Appointment } = require("../models");
+
+const { Patient, User, Address, Appointment, Specialty } = require("../models");
 
 //CREATE PATIENT
 router.post("/patient", async (req, res) => {
@@ -112,9 +112,23 @@ router.get("/patient/:id", async (req, res) => {
     const patient = await Patient.findByPk(id, {
       include: [
         {
+          model: Address,
+          as: "address",
+        },
+        {
           model: User,
           as: "user",
           attributes: { exclude: ["passwordHash"] },
+        },
+        {
+          model: Appointment,
+          as: "appointments",
+          include: [
+            {
+              model:Specialty,
+              as: 'specialty'
+            }
+          ]
         },
       ],
     });
