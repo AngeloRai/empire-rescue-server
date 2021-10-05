@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 //const swaggerUi = require('swagger-ui-express');
 const { sequelize } = require("./models");
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const app = express();
 
 // const swaggerAutogen = require('swagger-autogen')();
