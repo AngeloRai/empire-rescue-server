@@ -7,16 +7,8 @@
     "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   }
+
 }
 
-// "production": {
-//   "use_env_variable": ""
-//   "username": "root",
-//   "password": null,
-//   "database": "database_production",
-//   "host": "127.0.0.1",
-//   "dialect": "mysql"
-// }
