@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+
 require("dotenv").config();
 //const swaggerUi = require('swagger-ui-express');
 const { sequelize } = require("./models");
@@ -14,7 +15,7 @@ const app = express();
 // swaggerAutogen(outputFile, endpointsFiles);
 
 app.use(cors());
-
+app.use(cors({ origin: process.env.REACT_APP_URL }));
 app.use(express.json());
 
 app.get("/", (req, res) => res.send('Hello World'))
