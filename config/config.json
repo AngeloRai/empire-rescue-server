@@ -14,7 +14,7 @@
     "dialect": "postgres",
     "port": 5432,
     "ssl": true,
-    "operatorsAliases": false,
+    "operatorsAliases": false
 
 
   }
