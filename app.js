@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 app.disable("x-powered-by");
 app.use(cors({ exposedHeaders: ["forbbiden-reason"] }));
-app.use(monitor());
+
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("Hello World"));
