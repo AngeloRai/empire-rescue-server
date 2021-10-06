@@ -17,6 +17,8 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/", (req, res) => res.send('Hello World'))
+
 const userRoute = require("./routes/user.routes");
 app.use("/", userRoute);
 
