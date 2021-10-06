@@ -6,12 +6,12 @@ require("dotenv").config();
 const { sequelize } = require("./models");
 const PORT = process.env.PORT || 4000;
 const app = express();
-
-
-app.use(cors({ origin: process.env.REACT_APP_URL }));
+app.disable("x-powered-by");
+app.use(cors({ exposedHeaders: ["forbbiden-reason"] }));
+app.use(monitor());
 app.use(express.json());
 
-app.get("/", (req, res) => res.send('Hello World'))
+app.get("/", (req, res) => res.send("Hello World"));
 
 const userRoute = require("./routes/user.routes");
 app.use("/", userRoute);
