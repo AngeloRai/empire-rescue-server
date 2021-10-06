@@ -13,8 +13,8 @@
     "host": "ec2-54-172-169-87.compute-1.amazonaws.com",
     "dialect": "postgres",
     "port": 5432,
-    "ssl": true,
-    "operatorsAliases": false
+    "ssl": true
+
 
 
   }
