@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
 
     if (await bcrypt.compare(password, user.passwordHash)) {
       // Generate JWT token with the logged user data
-     const token = generateToken(user);
+     //const token = generateToken(user);
 
       return res.status(200).json({
         user: {
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
           role: user.role,
           id: user.id,
         },
-        token,
+        //token,
       });
     } else {
       // 401 Unauthorized
